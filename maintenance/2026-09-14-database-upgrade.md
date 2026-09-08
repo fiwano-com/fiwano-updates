@@ -1,7 +1,7 @@
 ---
 id: 2026-09-14-database-upgrade
 title: PostgreSQL minor version upgrade
-components: [messaging-api, portal]
+components: [messaging-api, website]
 status: scheduled
 scheduled_start: 2026-09-14T01:00:00Z
 scheduled_end: 2026-09-14T02:00:00Z
