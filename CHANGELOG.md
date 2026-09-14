@@ -4,6 +4,24 @@ New capabilities and meaningful improvements to Fiwano, newest first. Follow new
 
 > **How we ship.** Fiwano has no version numbers. The API contract is `v1`, and it has been stable since the public launch in March 2026. Every change is additive: new endpoints, new optional fields and parameters, new webhook event types. Existing fields keep their names, types and meaning, and new webhook events are never enabled on your channels without your action. Your integration only needs to ignore fields and event types it does not know. If a breaking change ever becomes unavoidable, it ships as a new API version alongside `v1`, announced here and by email in advance, and `v1` keeps working.
 
+## 14 September 2026
+
+### New: Shares, button taps and replies in webhooks
+
+Three things users do in a chat that used to arrive as `unsupported` now have a real shape. A post, reel or story mention shared on Instagram or Messenger is `type: "share"` with `share_type`, the link in `share.url` and the post caption in `caption`. A tap on any option you offered — a WhatsApp template quick-reply button, an interactive button or list row, an Instagram or Messenger quick reply or postback (Get Started, ice breakers, menu) — is an ordinary `type: "text"` whose text is the label the user saw, so one text handler covers typed answers and taps. And a reply to a specific message carries `reply_to.message_id`: the same id you already hold for the quoted message (your Fiwano UUID or the provider id you received), on every channel, for `message.received` and `message.echo`; an Instagram story reply carries `reply_to.story`. Messenger link previews no longer hide the message text, and WhatsApp `unsupported_type` now names the real content (`edit`, `poll_creation`, …). [Docs: Receiving Messages](https://fiwano.com/documentation/webhooks#button-taps)
+
+### Improved: Stickers
+
+Stickers now arrive the same way on all three channels: as an ordinary `image` event, so an integration that already handles images receives them without extra code. On WhatsApp and Facebook Messenger the event is additionally marked with `media.sticker: true`, and Messenger stickers also carry Meta's persistent `media.sticker_id`; on Instagram a sticker is indistinguishable from a regular image. Stickers can be sent as well: `media_type: "sticker"` takes a WebP file for WhatsApp or a Meta catalog `sticker_id` for Messenger. The WhatsApp-only `type: "sticker"` value is no longer used; if your code tested for it, check `media.sticker` instead. [Docs: Sending Messages](https://fiwano.com/documentation/sending-messages#stickers)
+
+### New: Channel health and reconnect for active channels
+
+When Meta stops accepting Fiwano's access to a connected account (the app was removed in Meta Business settings, a required permission was revoked, or the Page or WhatsApp account became unavailable), the channel is now marked **Needs reconnect** in the portal and the account owner is emailed. Nothing is torn down: the channel stays connected, incoming and outgoing traffic is not blocked, and the mark clears by itself if access comes back on Meta's side. Reconnecting is the same connect flow for the same account and now works for an active channel too, keeping its `channel_id`, webhook settings and history. [Docs: Channels](https://fiwano.com/documentation/channels#reconnecting-an-inactive-channel)
+
+### Improved: Clear answers when a channel cannot be connected
+
+`POST /api/v1/channels/setup-url` now says exactly what is in the way. `402` means one thing only: the account has no active subscription. When subscriptions exist but every slot for that channel type is taken, the answer is `409` with `detail.code` `no_free_slot` and `detail.occupied_by` listing the channels holding the slots, so you know what to reconnect or release. The hosted setup flow also reports its outcome back to your redirect URI: `slot_occupied` when the user connected a different Meta account than the one holding your slot, `access_denied` when they cancelled, `setup_failed` for anything else. [Docs: Errors](https://fiwano.com/documentation#errors)
+
 ## 11 September 2026
 
 ### New: Public changelog
