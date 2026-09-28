@@ -1,6 +1,6 @@
 ---
 id: 2026-09-27-messaging-api
-title: API & message delivery, Website & documentation unreachable from external probes
+title: Brief API and website outage during automatic failover
 components: [messaging-api, website]
 impact: major
 status: monitoring
