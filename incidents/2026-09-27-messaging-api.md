@@ -3,11 +3,14 @@ id: 2026-09-27-messaging-api
 title: Brief API and website outage during automatic failover
 components: [messaging-api, website]
 impact: major
-status: monitoring
+status: resolved
 started_at: 2026-09-27T20:46:38Z
-resolved_at:
+resolved_at: 2026-09-28T03:07:18Z
 opened_by: bot
 updates:
+  - at: 2026-09-28T03:07:18Z
+    status: resolved
+    body: "Resolved. A server failure made the API and website unavailable for under two minutes (20:45–20:47 UTC). Our systems failed over automatically and service has been running normally since. No data was lost, and Meta redelivered the messages that arrived during the gap."
   - at: 2026-09-27T20:48:08Z
     status: monitoring
     by: bot
