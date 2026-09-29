@@ -4,6 +4,26 @@ New capabilities and meaningful improvements to Fiwano, newest first. Follow new
 
 > **How we ship.** Fiwano has no version numbers. The API contract is `v1`, and it has been stable since the public launch in March 2026. Every change is additive: new endpoints, new optional fields and parameters, new webhook event types. Existing fields keep their names, types and meaning, and new webhook events are never enabled on your channels without your action. Your integration only needs to ignore fields and event types it does not know. If a breaking change ever becomes unavoidable, it ships as a new API version alongside `v1`, announced here and by email in advance, and `v1` keeps working.
 
+## 29 September 2026
+
+### New: Support tickets
+
+Support requests are now tracked in your Fiwano account. Write to us via **Contact** in the portal or email support@fiwano.com from your account address: each request becomes a ticket in the portal, with its current status and the full conversation history.
+
+### Improved: Connecting a channel
+
+Small improvements to the connect flow for WhatsApp, Instagram and Messenger: clearer status next to the connect button, and trying again after closing Meta's window now works reliably. [Docs: Channels](https://fiwano.com/documentation/channels)
+
+### Improved: Request limit per API key
+
+All public API operations except sending messages are now limited to 20 requests per second per API key. It is a guardrail against runaway loops, not a quota: normal integrations stay far below it. Exceeding it returns `429` with `Retry-After`, like the per-channel send limit. [Docs: Capabilities](https://fiwano.com/documentation/capabilities#rate-limits)
+
+## 23 September 2026
+
+### New: Referral context for ads and links (beta)
+
+When a conversation starts from a Click-to-WhatsApp, Click-to-Instagram or Click-to-Messenger ad, or from an m.me / ig.me link with a `ref` parameter, Meta attaches attribution to the first inbound event. Fiwano now passes it on as `data.referral` on that `message.received`: `source` (`ad`, `link`, `product`), `text` (the ad copy the user saw), `image_url` (the creative, or a video's thumbnail), your `ref`, and `raw` — Meta's attribution object exactly as received, with the ad id, `ctwa_clid` for the Conversions API and the WhatsApp welcome message. On Instagram and Messenger the new opt-in event `conversation.referral` tells you when a returning user clicks an ad or a link into an existing conversation without writing; the click reopens the 24-hour window. The feature ships as a beta, which we expect to run until November 2026: the four normalised keys and the `conversation.referral` event may be adjusted, `raw` stays as it is. If you plan to rely on the normalised keys or on `conversation.referral`, tell us at contact@fiwano.com: should anything change, we will inform you before it does. [Docs: Receiving Messages](https://fiwano.com/documentation/webhooks#referral)
+
 ## 14 September 2026
 
 ### New: Shares, button taps and replies in webhooks
