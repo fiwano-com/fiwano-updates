@@ -4,6 +4,26 @@ New capabilities and meaningful improvements to Fiwano, newest first. Follow new
 
 > **How we ship.** Fiwano has no version numbers. The API contract is `v1`, and it has been stable since the public launch in March 2026. Every change is additive: new endpoints, new optional fields and parameters, new webhook event types. Existing fields keep their names, types and meaning, and new webhook events are never enabled on your channels without your action. Your integration only needs to ignore fields and event types it does not know. If a breaking change ever becomes unavoidable, it ships as a new API version alongside `v1`, announced here and by email in advance, and `v1` keeps working.
 
+## 6 October 2026
+
+### Improved: Channel health in the API, failed-delivery details in the portal
+
+Every channel in `GET /api/v1/channels` now carries `health`: `status` is `ok`, or `action_required` when Meta no longer lets Fiwano work with the account or number — access or a permission revoked, a WhatsApp number removed or not on the Business Platform, an account blocked by Meta. `reason` is Meta's error with its code, `since` is when it was detected. In the portal, each channel has a **Delivery problems** page for the last 7 days: messages waiting for a retry or failed, with Meta's code and text, and webhook deliveries to your endpoint that are retrying, failed or recovered, with your endpoint's error. [Docs: Channels](https://fiwano.com/documentation/channels#channel-health)
+
+### Improved: Failed-message webhook on every channel
+
+`message.failed` is now available on Instagram and Facebook Messenger. On every channel it also reports messages that were answered `queued` and could not be delivered after all — the retries ran out, Meta rejected the message on a retry or never confirmed it, or the channel was disconnected while the message waited. The payload is the one WhatsApp already uses: `error` is a short text reason, always present; `errors` is an array with Meta's full error details — code, title, message — included when Meta caused the failure. Add `message.failed` to `webhook_events` to receive it. [Docs: Receiving Messages](https://fiwano.com/documentation/webhooks#event-types)
+
+## 1 October 2026
+
+### Improved: Bearer authentication
+
+The API now also accepts your key as `Authorization: Bearer <key>`, for tools and connectors that only support bearer tokens. `X-API-Key` stays the primary header and wins when both are sent. [Docs: Authentication](https://fiwano.com/documentation#authentication)
+
+### Improved: OpenAPI spec importable by URL
+
+The OpenAPI spec (`/api/v1/openapi.json` and `.yaml`) can now be imported by URL from browser-based tools, such as the API import in AI app builders. [Docs: AI app builders](https://fiwano.com/documentation/ai-app-builders#connecting-through-a-builders-connector)
+
 ## 29 September 2026
 
 ### New: Support tickets
@@ -40,7 +60,7 @@ When Meta stops accepting Fiwano's access to a connected account (the app was re
 
 ### Improved: Clear answers when a channel cannot be connected
 
-`POST /api/v1/channels/setup-url` now says exactly what is in the way. `402` means one thing only: the account has no active subscription. When subscriptions exist but every slot for that channel type is taken, the answer is `409` with `detail.code` `no_free_slot` and `detail.occupied_by` listing the channels holding the slots, so you know what to reconnect or release. The hosted setup flow also reports its outcome back to your redirect URI: `slot_occupied` when the user connected a different Meta account than the one holding your slot, `access_denied` when they cancelled, `setup_failed` for anything else. [Docs: Errors](https://fiwano.com/documentation#errors)
+`POST /api/v1/channels/setup-url` now says exactly what is in the way. `402` means one thing only: the account has no active subscription. When subscriptions exist but every slot for that channel type is taken, the answer is `409` with `detail.code` `no_free_slot` and `detail.occupied_by` listing the channels holding the slots, so you know what to reconnect or release. The hosted setup flow also reports its outcome back to your redirect URI: `slot_occupied` when the user connected a different Meta account than the one holding your slot, `access_denied` when they cancelled, `setup_failed` for anything else. [Docs: Errors](https://fiwano.com/documentation/errors#http-errors)
 
 ## 11 September 2026
 
@@ -56,7 +76,7 @@ This page. New capabilities and meaningful improvements, newest first, with an [
 
 ### New: Instagram and Messenger conversation routing
 
-Conversations that another app controls through Meta's handover protocol are handled explicitly: messages arriving while your channel is on standby are still delivered as `message.received`, and a send into such a conversation is rejected with an actionable hint instead of a generic Meta error. [Docs: Errors](https://fiwano.com/documentation#errors)
+Conversations that another app controls through Meta's handover protocol are handled explicitly: messages arriving while your channel is on standby are still delivered as `message.received`, and a send into such a conversation is rejected with an actionable hint instead of a generic Meta error. [Docs: Errors](https://fiwano.com/documentation/errors#error-10)
 
 ### New: Message echo events
 
