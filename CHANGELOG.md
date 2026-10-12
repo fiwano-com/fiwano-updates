@@ -4,6 +4,12 @@ New capabilities and meaningful improvements to Fiwano, newest first. Follow new
 
 > **How we ship.** Fiwano has no version numbers. The API contract is `v1`, and it has been stable since the public launch in March 2026. Every change is additive: new endpoints, new optional fields and parameters, new webhook event types. Existing fields keep their names, types and meaning, and new webhook events are never enabled on your channels without your action. Your integration only needs to ignore fields and event types it does not know. If a breaking change ever becomes unavoidable, it ships as a new API version alongside `v1`, announced here and by email in advance, and `v1` keeps working.
 
+## 12 October 2026
+
+### Improved: Share caption is always the user's own text
+
+On Instagram and Messenger shares (`type: "share"`), `caption` now means the same as on media: the text the user wrote together with the share, if any. Until now it could also carry the shared post's own caption, so the author's words and the user's words were indistinguishable, and a user's text sent with a captioned post did not arrive. The shared post's caption is no longer included; `share.url` links to the post. [Docs: Receiving Messages](https://fiwano.com/documentation/webhooks#shares)
+
 ## 6 October 2026
 
 ### Improved: Channel health in the API, failed-delivery details in the portal
