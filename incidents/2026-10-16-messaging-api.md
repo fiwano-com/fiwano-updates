@@ -1,6 +1,6 @@
 ---
 id: 2026-10-16-messaging-api
-title: API & message delivery, Website & documentation unreachable from external probes
+title: Brief API and website outage
 components: [messaging-api, website]
 impact: major
 status: monitoring
