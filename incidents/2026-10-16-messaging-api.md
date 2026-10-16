@@ -3,11 +3,14 @@ id: 2026-10-16-messaging-api
 title: Brief API and website outage
 components: [messaging-api, website]
 impact: major
-status: monitoring
+status: resolved
 started_at: 2026-10-16T17:55:41Z
-resolved_at:
+resolved_at: 2026-10-16T19:02:44Z
 opened_by: bot
 updates:
+  - at: 2026-10-16T19:02:44Z
+    status: resolved
+    body: "One of our servers had a network problem, which caused a brief interruption of the API and website between 17:55 and 17:57 UTC on 16 October, lasting under two minutes. No data was lost. API requests that failed during the interruption should be retried."
   - at: 2026-10-16T17:57:10Z
     status: monitoring
     by: bot
