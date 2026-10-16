@@ -3,11 +3,15 @@ id: 2026-10-16-messaging-api
 title: API & message delivery, Website & documentation unreachable from external probes
 components: [messaging-api, website]
 impact: major
-status: investigating
+status: monitoring
 started_at: 2026-10-16T17:55:41Z
 resolved_at:
 opened_by: bot
 updates:
+  - at: 2026-10-16T17:57:10Z
+    status: monitoring
+    by: bot
+    body: "External probes report the service reachable again since 17:56 UTC. Watching before this is called resolved."
   - at: 2026-10-16T17:56:19Z
     status: investigating
     by: bot
