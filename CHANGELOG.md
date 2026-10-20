@@ -4,6 +4,12 @@ New capabilities and meaningful improvements to Fiwano, newest first. Follow new
 
 > **How we ship.** Fiwano has no version numbers. The API contract is `v1`, and it has been stable since the public launch in March 2026. Every change is additive: new endpoints, new optional fields and parameters, new webhook event types. Existing fields keep their names, types and meaning, and new webhook events are never enabled on your channels without your action. Your integration only needs to ignore fields and event types it does not know. If a breaking change ever becomes unavoidable, it ships as a new API version alongside `v1`, announced here and by email in advance, and `v1` keeps working.
 
+## 20 October 2026
+
+### Improved: WhatsApp templates
+
+Templates with an image, video or document header can now be sent through the API: pass the file in `header_media_url`. Authentication templates with a copy-code button can be created through the API and the portal, and are sent with the code given once. Template details now include Meta's `rejected_reason` and `quality_score`, status updates from Meta are improved, and a few edge cases of template handling are refined. The `sync` parameter of the template list is no longer needed and has no effect. [Docs: WhatsApp Templates](https://fiwano.com/documentation/templates)
+
 ## 12 October 2026
 
 ### Improved: Share caption is always the user's own text
