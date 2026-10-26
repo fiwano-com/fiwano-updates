@@ -4,6 +4,20 @@ New capabilities and meaningful improvements to Fiwano, newest first. Follow new
 
 > **How we ship.** Fiwano has no version numbers. The API contract is `v1`, and it has been stable since the public launch in March 2026. Every change is additive: new endpoints, new optional fields and parameters, new webhook event types. Existing fields keep their names, types and meaning, and new webhook events are never enabled on your channels without your action. Your integration only needs to ignore fields and event types it does not know. If a breaking change ever becomes unavoidable, it ships as a new API version alongside `v1`, announced here and by email in advance, and `v1` keeps working.
 
+## 26 October 2026
+
+### New: Buttons, cards, quick replies and lists
+
+`POST /api/v1/messages/send-interactive` sends messages the user answers with a tap, with one request shape on WhatsApp, Instagram and Messenger: reply and link buttons, cards with an image, title and buttons that scroll as a carousel, quick-reply chips on Instagram and Messenger, and lists on WhatsApp. Each channel gets its native message; a shape a channel does not have is refused with a clear `400` instead of being replaced by something else. Available on Pro, inside the 24-hour window. [Docs: Sending Messages](https://fiwano.com/documentation/sending-messages#interactive-messages)
+
+### Improved: Button taps carry the button id
+
+A tap on a button, quick reply, list row, template button, menu item or ice breaker still arrives as `message.received` of `type: "text"` with the label as `text`, and now also carries `button_id` — the `id` you set, or the payload configured for the button elsewhere. Quick-reply buttons of WhatsApp templates take that `id` when sending, in `variables.buttons`. [Docs: Receiving Messages](https://fiwano.com/documentation/webhooks#button-taps)
+
+### Improved: Conversation control on Instagram and Messenger
+
+When Meta's conversation routing gives conversations to another app, Meta's inbox or Meta AI, replies through Fiwano are rejected for them. The channel page in the portal now shows this as a notice — whether the account sends new conversations to another app, or only some conversations are temporarily handled elsewhere — instead of frequent emails about each such incoming message. A reply that Meta rejects is still reported as before. [Docs: Channels](https://fiwano.com/documentation/channels#prerequisites)
+
 ## 20 October 2026
 
 ### Improved: WhatsApp templates
