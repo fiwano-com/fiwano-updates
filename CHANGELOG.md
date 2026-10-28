@@ -4,6 +4,16 @@ New capabilities and meaningful improvements to Fiwano, newest first. Follow new
 
 > **How we ship.** Fiwano has no version numbers. The API contract is `v1`, and it has been stable since the public launch in March 2026. Every change is additive: new endpoints, new optional fields and parameters, new webhook event types. Existing fields keep their names, types and meaning, and new webhook events are never enabled on your channels without your action. Your integration only needs to ignore fields and event types it does not know. If a breaking change ever becomes unavoidable, it ships as a new API version alongside `v1`, announced here and by email in advance, and `v1` keeps working.
 
+## 28 October 2026
+
+### Improved: Inbound files
+
+Inbound files of any type up to 10 MB are now delivered on every channel. Some types, such as JSON or a file without an extension, used to arrive with `download_url: null`. Documents on Facebook Messenger now carry `media.filename`, the name as Meta delivers it. A file over 10 MB on Instagram and Messenger now reports its real `file_size` and `mime_type`, as on WhatsApp. `GET /api/v1/media/{media_id}` names a file per RFC 6266: an ASCII `filename` fallback, then the exact `filename*`. [Docs: Receiving Messages](https://fiwano.com/documentation/webhooks#downloading-inbound-media)
+
+### Improved: Shared Instagram stories
+
+A story a user sends to your Instagram account with the story's share button now arrives as `type: "share"` with `share_type: "story"`, the story media in `share.url` and `share.expires_at`, the same way as a story mention. Until now it arrived as `type: "unsupported"` with `unsupported_type: "ig_story"`. The shares section now also says what `share.url` points to for each kind of share, and which Messenger shares arrive as a link in `text`. [Docs: Receiving Messages](https://fiwano.com/documentation/webhooks#shares)
+
 ## 26 October 2026
 
 ### New: Buttons, cards, quick replies and lists
