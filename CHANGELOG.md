@@ -4,6 +4,16 @@ New capabilities and meaningful improvements to Fiwano, newest first. Follow new
 
 > **How we ship.** Fiwano has no version numbers. The API contract is `v1`, and it has been stable since the public launch in March 2026. Every change is additive: new endpoints, new optional fields and parameters, new webhook event types. Existing fields keep their names, types and meaning, and new webhook events are never enabled on your channels without your action. Your integration only needs to ignore fields and event types it does not know. If a breaking change ever becomes unavoidable, it ships as a new API version alongside `v1`, announced here and by email in advance, and `v1` keeps working.
 
+## 17 November 2026
+
+### Improved: Clearer delivery problem reports
+
+The delivery problem email and the channel's Delivery problems page now explain each failure in plain words: what happened, what to do, and the original answer of Meta or of your webhook endpoint as a detail. Webhook failures name the cause, such as a host that no longer resolves, a redirect, a rejected signature or a server error, and Meta rejections are explained by Meta's error code, whatever language Meta answers in. The email links straight to the channel's page. [Docs: Errors](https://fiwano.com/documentation/errors#send-error-codes)
+
+### Improved: License status in the portal, subscription filter in the API
+
+The portal now shows a license only when it needs attention: next to each channel and on the channel page you see when its license has expired, when a renewal payment is overdue and until when the channels keep working, or when a license that does not renew ends within a month. On the channel page, the license picker lists only the licenses the channel can actually move to, and a channel whose license has expired says what to do and when it will be disconnected. `GET /api/v1/subscriptions` takes an optional `status` filter, for example `?status=active`; without it the response is unchanged. [Docs: Subscriptions & Billing](https://fiwano.com/documentation/subscriptions#checking-available-slots)
+
 ## 28 October 2026
 
 ### Improved: Inbound files
