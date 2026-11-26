@@ -4,6 +4,20 @@ New capabilities and meaningful improvements to Fiwano, newest first. Follow new
 
 > **How we ship.** Fiwano has no version numbers. The API contract is `v1`, and it has been stable since the public launch in March 2026. Every change is additive: new endpoints, new optional fields and parameters, new webhook event types. Existing fields keep their names, types and meaning, and new webhook events are never enabled on your channels without your action. Your integration only needs to ignore fields and event types it does not know. If a breaking change ever becomes unavoidable, it ships as a new API version alongside `v1`, announced here and by email in advance, and `v1` keeps working.
 
+## 26 November 2026
+
+### New: Prepaid subscriptions
+
+For products that connect many channels, Fiwano now offers prepaid subscriptions. A prepaid subscription has a balance of credits instead of a monthly period and no slots: any number of WhatsApp, Instagram and Facebook channels can sit on it. Each day costs a fixed daily fee plus each connected channel, the same for every channel type, so the price per channel drops as you connect more. Credits are bought in the portal ($1 = 100 credits), do not expire and are used only for channels on Fiwano. The cost calculator in the portal compares prepaid and monthly licenses for your channels. Prepaid subscriptions are opened on request: open a ticket on the portal's Support page or write to contact@fiwano.com and briefly describe your product. If you already pay for monthly licenses and want to switch, ask the same way: the unused part of your current subscriptions moves to the new balance as credits. In the API, a prepaid subscription has `source: "prepaid"` and a `prepaid` object with the balance and the daily cost; every subscription now lists its channels in `channels`, and `assigned_channels` stays for compatibility. [Docs: Subscriptions & Billing](https://fiwano.com/documentation/subscriptions#prepaid-subscriptions)
+
+### Improved: Channels move to a new license on their own
+
+When a license ends and its channels have nowhere to move, they stay connected for 3 days. Now, as soon as a license with room appears in that time — a new subscription, an extension or credits on a prepaid subscription — the channels move to it within a minute, without reconnecting, and you get an email that they work again. Until then the Billing page offers to move a channel by hand. License emails now say for each channel where it moves or when it stops working. [Docs: Subscriptions & Billing](https://fiwano.com/documentation/subscriptions)
+
+### Improved: Resume a canceled subscription
+
+A subscription canceled in Paddle keeps working until the end of the paid period. Until then, **Resume subscription** on the Billing page undoes the cancellation in one click, with no charge and the same billing date. After checkout, the Billing page now waits for the new license to appear instead of asking you to reload.
+
 ## 17 November 2026
 
 ### Improved: Clearer delivery problem reports
